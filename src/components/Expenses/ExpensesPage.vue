@@ -1,5 +1,7 @@
 <template>
-
+  <div>
+    Expenses
+  </div>
 </template>
 
 <script>

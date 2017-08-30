@@ -1,10 +1,10 @@
 <template>
   <v-app light>
     <v-navigation-drawer
-      persistent
-      :mini-variant="miniVariant"
+      temporary
       :clipped="clipped"
       v-model="drawer"
+      :right="right"
       enable-resize-watcher
     >
       <v-list>
@@ -22,8 +22,10 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer" light></v-toolbar-side-icon>
+    <v-toolbar>
+      <v-toolbar-title>Home Suite</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-side-icon class="text-xl-right" @click.stop="drawer = !drawer" light></v-toolbar-side-icon>
     </v-toolbar>
     <main>
       <v-container fluid>
@@ -34,20 +36,6 @@
         </v-slide-y-transition>
       </v-container>
     </main>
-    <v-navigation-drawer
-      temporary
-      :right="right"
-      v-model="rightDrawer"
-    >
-      <v-list>
-        <v-list-tile @click="right = !right">
-          <v-list-tile-action>
-            <v-icon light>compare_arrows</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
     <v-footer :fixed="fixed">
       <span>&copy; 2017</span>
     </v-footer>
@@ -59,10 +47,11 @@
     data () {
       return {
         clipped: false,
-        drawer: true,
+        drawer: false,
         fixed: false,
         items: [
-          { icon: 'bubble_chart', title: 'Inspire' }
+          { icon: 'list', title: 'Todos' },
+          { icon: 'attach_money', title: 'Expenses' }
         ],
         miniVariant: false,
         right: true,

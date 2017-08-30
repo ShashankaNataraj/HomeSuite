@@ -1,5 +1,7 @@
 <template>
-
+  <div>
+    404 on page
+  </div>
 </template>
 
 <script>
