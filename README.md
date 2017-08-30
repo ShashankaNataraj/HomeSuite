@@ -1,5 +1,7 @@
 # homesuite
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ShashankaNataraj/HomeSuite.svg)](https://greenkeeper.io/)
+
 > A Vue.js project
 
 ## Build Setup
