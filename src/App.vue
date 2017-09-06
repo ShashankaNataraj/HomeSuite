@@ -29,9 +29,11 @@
     </v-toolbar>
     <main>
       <v-container grid-list-md text-xs-center>
-          <v-layout row wrap>
+        <v-slide-y-transition mode="out-in">
+          <v-layout>
             <router-view></router-view>
           </v-layout>
+        </v-slide-y-transition>
       </v-container>
     </main>
     <v-footer :fixed="fixed">
