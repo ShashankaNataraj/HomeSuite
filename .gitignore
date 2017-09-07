@@ -16,3 +16,6 @@ selenium-debug.log
 *.sln
 *.swp
 src/FirebaseConfig.json
+
+.firebaserc
+firebase.json

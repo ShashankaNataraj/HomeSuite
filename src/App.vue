@@ -22,7 +22,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar>
+    <v-toolbar :hidden="toolbarHidden">
       <v-toolbar-title>Home Suite</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-side-icon class="text-xl-right" @click.stop="drawer = !drawer" light></v-toolbar-side-icon>
@@ -52,7 +52,7 @@
         miniVariant: false,
         right: true,
         rightDrawer: false,
-        title: 'Vuetify.js'
+        toolbarHidden: false
       }
     }
   }
