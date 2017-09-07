@@ -16,26 +16,27 @@ let todos = firebaseDB.ref('todos')
 let completedTodos = firebaseDB.ref('completed')
 
 Vue.use(VueFire)
-
-export default new Router({
-  routes: [
-    {
-      path: '/todos',
-      name: 'TodoPage',
-      component: TodoPage,
-      props: {todos, completedTodos}
-    }, {
-      path: '/expenses',
-      name: 'Expenses',
-      component: Expenses
-    }, {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    }, {
-      path: '*',
-      name: 'Error404',
-      component: Error404
-    }
-  ]
-})
+export default {
+  router: new Router({
+    routes: [
+      {
+        path: '/todos',
+        name: 'TodoPage',
+        component: TodoPage,
+        props: { todos, completedTodos }
+      }, {
+        path: '/expenses',
+        name: 'Expenses',
+        component: Expenses
+      }, {
+        path: '/login',
+        name: 'Login',
+        component: Login
+      }, {
+        path: '*',
+        name: 'Error404',
+        component: Error404
+      }
+    ]
+  })
+}

@@ -18,7 +18,7 @@
           </v-toolbar>
           <v-card-text>
             <v-text-field label="Name" v-model="name" :rules="nameRules" :counter="true" required></v-text-field>
-            <v-text-field label="Description" v-model="description" :rules="nameRules" :counter="true" required></v-text-field>
+            <v-text-field label="Description" v-model="description" :rules="descriptionRules" :counter="true" required></v-text-field>
             <v-flex md12 lg4 class="hidden-lg-only">
               <v-date-picker v-model="deadline"></v-date-picker>
             </v-flex>
@@ -73,6 +73,10 @@ export default {
       nameRules: [
         (v) => !!v || 'Name is required',
         (v) => v.length <= 10 || 'Name must be less than 10 characters'
+      ],
+      descriptionRules: [
+        (v) => !!v || 'Description is required',
+        (v) => v.length <= 10 || 'Description must be less than 10 characters'
       ]
     }
   }
