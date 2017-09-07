@@ -48,7 +48,6 @@ import AddTodo from './AddTodo'
 export default {
   methods: {
     markComplete (todo) {
-      debugger
       // create a copy of the item
       todo = { ...todo }
 
