@@ -14,7 +14,7 @@
                 <v-icon>more_vert</v-icon>
               </v-btn>
               <v-list>
-                <v-list-tile>
+                <v-list-tile @click="markComplete(todo)">
                   <v-list-tile-title>
                     <v-icon class="grey--text text--lighten-1">check</v-icon>
                     Mark Done
@@ -26,7 +26,7 @@
                     Edit
                   </v-list-tile-title>
                 </v-list-tile>
-                <v-list-tile>
+                <v-list-tile @click="removeTodo(todo)">
                   <v-list-tile-title>
                     <v-icon class="grey--text text--lighten-1">delete</v-icon>
                     Delete
@@ -46,13 +46,30 @@
 <script>
 import AddTodo from './AddTodo'
 export default {
+  methods: {
+    markComplete (todo) {
+      debugger
+      // create a copy of the item
+      todo = { ...todo }
+
+      this.removeTodo(todo)
+      // remove the .key attribute
+      delete todo['.key']
+
+      this.completedTodos.push(todo)
+    },
+    removeTodo (todo) {
+      this.todos.child(todo['.key']).remove()
+    }
+  },
   components: {
     'add-todo': AddTodo
   },
   props: [
-    'todos'
+    'todos',
+    'completedTodos'
   ],
-  firebase: function () {
+  firebase () {
     return {
       todosList: this.todos
     }

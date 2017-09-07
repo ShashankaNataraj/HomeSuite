@@ -13,6 +13,8 @@ Vue.use(Router)
 Vue.config.productionTip = false
 let firebaseDB = Firebase.initializeApp(FirebaseConfig).database()
 let todos = firebaseDB.ref('todos')
+let completedTodos = firebaseDB.ref('completed')
+
 Vue.use(VueFire)
 
 export default new Router({
@@ -21,7 +23,7 @@ export default new Router({
       path: '/todos',
       name: 'TodoPage',
       component: TodoPage,
-      props: {todos}
+      props: {todos, completedTodos}
     }, {
       path: '/expenses',
       name: 'Expenses',
