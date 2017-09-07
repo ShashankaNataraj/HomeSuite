@@ -28,12 +28,8 @@
       <v-toolbar-side-icon class="text-xl-right" @click.stop="drawer = !drawer" light></v-toolbar-side-icon>
     </v-toolbar>
     <main>
-      <v-container grid-list-md text-xs-center>
-        <v-slide-y-transition mode="out-in">
-          <v-layout>
-            <router-view></router-view>
-          </v-layout>
-        </v-slide-y-transition>
+      <v-container grid-list-xs fluid>
+          <router-view></router-view>
       </v-container>
     </main>
     <v-footer :fixed="fixed">

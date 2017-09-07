@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12>
+  <v-flex text-xs-center xs12>
     <v-card>
       <v-list two-line>
         <v-list-tile avatar ripple v-for="(todo, index) in todosList" v-bind:key="todo.id">

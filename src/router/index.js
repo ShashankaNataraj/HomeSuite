@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import TodoPage from '@/components/Todos/TodoPage'
 import Expenses from '@/components/Expenses/ExpensesPage'
 import Login from '@/components/Login/LoginPage'
+import Home from '@/components/Home/HomePage'
 import Error404 from '@/components/404/404'
 import Firebase from 'firebase'
 import VueFire from 'vuefire'
@@ -14,7 +15,9 @@ Vue.config.productionTip = false
 let firebaseDB = Firebase.initializeApp(FirebaseConfig).database()
 let todos = firebaseDB.ref('todos')
 let completedTodos = firebaseDB.ref('completed')
-
+let expenses = firebaseDB.ref('expenses')
+let notes = firebaseDB.ref('notes')
+let archivedNotes = firebaseDB.ref('archived-notes')
 Vue.use(VueFire)
 export default {
   router: new Router({
@@ -32,6 +35,11 @@ export default {
         path: '/login',
         name: 'Login',
         component: Login
+      }, {
+        path: '/',
+        name: 'Home',
+        component: Home,
+        props: {todos, completedTodos, expenses, notes, archivedNotes}
       }, {
         path: '*',
         name: 'Error404',
