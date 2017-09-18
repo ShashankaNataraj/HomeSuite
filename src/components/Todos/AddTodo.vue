@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   props: ['todos'],
   methods: {
@@ -63,7 +64,7 @@ export default {
       name: '',
       description: '',
       categories: [],
-      deadline: '',
+      deadline: moment().format('YYYY-MM-DD'),
       dialog: false,
       valid: false,
       snackbar: false,

@@ -8,7 +8,7 @@
             <v-list-tile-sub-title>{{ todo.description }}</v-list-tile-sub-title>
           </v-list-tile-content>
           <v-list-tile-action>
-            <v-list-tile-action-text>{{todo.deadline}}</v-list-tile-action-text>
+            <v-list-tile-action-text>{{computeDueIn(todo.deadline)}}</v-list-tile-action-text>
             <v-menu bottom right>
               <v-btn icon slot="activator">
                 <v-icon>more_vert</v-icon>
@@ -45,6 +45,7 @@
 
 <script>
 import AddTodo from './AddTodo'
+import moment from 'moment'
 export default {
   methods: {
     markComplete (todo) {
@@ -59,6 +60,13 @@ export default {
     },
     removeTodo (todo) {
       this.todos.child(todo['.key']).remove()
+    },
+    computeDueIn (deadline) {
+      if (deadline) {
+        return `Due ${moment(deadline, 'YYYY-MM-DD').endOf('day').fromNow()}`
+      } else {
+        return 'Due never'
+      }
     }
   },
   components: {
