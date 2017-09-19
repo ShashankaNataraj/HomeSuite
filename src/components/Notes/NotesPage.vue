@@ -47,7 +47,7 @@
         </v-list>
       </v-card>
     </v-flex>
-    <v-flex xs12 sm12 column v-if="isBookSelected">
+    <v-flex xs12 sm12 column v-if="isBookSelected && !isPageSelected">
       <v-card row class="purple white--text">
         <v-list>
           <v-subheader>
@@ -86,17 +86,22 @@
     </v-flex>
     <v-flex xs12 sm12 column v-if="isBookSelected && isPageSelected">
       <v-layout row>
-        <v-flex column sm3>
+        <v-flex column xs12 lg6>
           <v-card row>
             <v-text-field
               label="Markdown"
               multi-line
-              v-model="currentNoteMarkdown"
+              v-model="currentPageMarkdown"
               auto-grow
             ></v-text-field>
           </v-card>
+          <v-card>
+            <v-btn @click="savePageToBook()">
+              <v-icon>save</v-icon>Save
+            </v-btn>
+          </v-card>
         </v-flex>
-        <v-flex column sm9>
+        <v-flex column xs12 lg6>
           <v-card row>
             <div column v-html="compiledMarkdown"></div>
           </v-card>
@@ -138,6 +143,14 @@ export default {
       this.updateBook(currentBook)
       this.newPageName = ''
     },
+    savePageToBook () {
+      this.isAddingPage = false
+      let currentBook = {...this.getCurrentSelectedBook()}
+      let currentPage = currentBook['pages']
+        .find(page => page.title === this.selectedPageName.title, this)
+      currentPage.md = this.currentPageMarkdown
+      this.updateBook(currentBook)
+    },
     updateBook (book) { // Accepts Updates a book object with the passed book
       let currentSelectedBookObj = this.getCurrentSelectedBook()
       let relevantBookKey = currentSelectedBookObj['.key']
@@ -149,7 +162,9 @@ export default {
       this.selectedBookKey = book['.key']
     },
     selectPage (page) {
+      this.currentUserPath.push(page.title)
       this.selectedPageName = page
+      this.currentPageMarkdown = page.md
     },
     getCurrentSelectedBook () {
       return this.booksList
@@ -167,7 +182,7 @@ export default {
   },
   computed: {
     compiledMarkdown: function () {
-      return marked(this.currentNoteMarkdown, { sanitize: true })
+      return marked(this.currentPageMarkdown, { sanitize: true })
     },
     notesInCurrentBook () {
       let pages
@@ -194,7 +209,7 @@ export default {
       newPageName: '', // New page name being entered by the user
       selectedBookKey: '', // Current clicked books key
       selectedPageName: '', // Current clicked page name
-      currentNoteMarkdown: '# hello', // Current markdown text being edited
+      currentPageMarkdown: '# hello', // Current markdown text being edited
       currentUserPath: [] // Tracks users selections on the screen mainly to show breadcrumbs
     }
   }
