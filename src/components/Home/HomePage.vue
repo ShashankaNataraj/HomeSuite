@@ -41,10 +41,10 @@
                 <div class="headline">Notes</div>
               </v-card-title>
               <v-card-text>
-                You have {{notesRef.length}} active notes and {{archivedNotesRef.length}} archived notes in firebase
+                You have {{booksRef.length}} active notes
               </v-card-text>
               <v-card-actions>
-                  <router-link :to="'/expenses'" class="white--text">
+                  <router-link :to="'/notes'" class="white--text">
                     <v-btn>View list</v-btn>
                   </router-link>
               </v-card-actions>
@@ -64,16 +64,14 @@ export default {
     'todos',
     'completedTodos',
     'expenses',
-    'notes',
-    'archivedNotes'
+    'books'
   ],
   firebase () {
     return {
       pendingTasksRef: this.todos,
       completedTodosRef: this.completedTodos,
       expensesRef: this.expenses,
-      notesRef: this.notes,
-      archivedNotesRef: this.archivedNotes
+      booksRef: this.books
     }
   }
 }

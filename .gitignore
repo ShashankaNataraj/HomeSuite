@@ -19,3 +19,4 @@ src/FirebaseConfig.json
 
 .firebaserc
 firebase.json
+package-lock.json
