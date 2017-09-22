@@ -1,51 +1,17 @@
 <template>
-  <v-container grid-list-md>
-    <v-navigation-drawer permanent clipped light :mini-variant.sync="mini" v-model="drawer">
-      <v-list dense class="pt-0">
-        <v-list-tile avatar>
-          <v-list-tile-action>
-            <img src="https://www.iconexperience.com/_img/g_collection_png/standard/512x512/books.png" height=45/>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Books</v-list-tile-title>
-          </v-list-tile-content>
-          <v-list-tile-action>
-            <v-btn icon @click.native.stop="mini = !mini">
-              <v-icon>chevron_left</v-icon>
-            </v-btn>
-          </v-list-tile-action>
-        </v-list-tile>
-        <v-list-tile avatar v-for="note in booksList" v-bind:key="note.title"
-                     v-bind:class="selectedBookKey === note['.key']?'deep-purple lighten-4':''"
-                     @click="selectBook(note)">
-          <v-list-tile-content>
-            <v-list-tile v-text="note.title"></v-list-tile>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-footer v-bind:class="[isAddingBook?'footer-adding-book':'footer-normal']">
-          <v-flex xs12>
-            <v-spacer v-if="!isAddingBook"></v-spacer>
-            <v-btn flat outline block secondary @click="addNewBook()" v-if="!isAddingBook">
-              <v-icon>
-                add
-              </v-icon>
-              Add New Book
-            </v-btn>
-            <div v-if="isAddingBook" row wrap>
-              <v-text-field label="New Book Name" column width="50px" v-model="newBookName"></v-text-field>
-              <v-btn @click="saveBookName()">
-                <v-icon>
-                  check
-                </v-icon>
-                Save
-              </v-btn>
-            </div>
-          </v-flex>
-        </v-footer>
-      </v-list>
-    </v-navigation-drawer>
+  <v-container>
     <v-layout row wrap>
-      <v-flex xs2 sm2 column>
+    <v-flex xs12 sm12 lg12 column>
+      <v-card>
+        <v-btn outline flat v-for="note in booksList" v-bind:key="note.title" @click="selectBook(note)" v-bind:class="selectedBookKey === note['.key']?'deep-purple lighten-4':''">
+          <v-icon>
+            {{note.icon}}
+          </v-icon>
+          {{note.title}}
+        </v-btn>
+      </v-card>
+    </v-flex>
+      <v-flex xs12 sm12 column v-if="isBookSelected && !isPageSelected">
         <v-card row class="purple white--text">
           <v-list>
             <v-subheader>
@@ -56,7 +22,7 @@
             </v-subheader>
             <v-divider></v-divider>
             <v-list-tile avatar v-for="note in notesInCurrentBook" v-bind:key="note.title"
-                         v-bind:class="selectedBookKey === note['.key']?'deep-purple lighten-4':''"
+                         v-bind:class="selectedPageName === note.title?'deep-purple lighten-4':''"
                          @click="selectPage(note)">
               <v-list-tile-content>
                 <v-list-tile v-text="note.title"></v-list-tile>
@@ -85,16 +51,14 @@
           </v-list>
         </v-card>
       </v-flex>
-      <v-flex xs8 sm8 column v-if="isBookSelected && isPageSelected">
+      <v-flex xs12 sm12 column v-if="isBookSelected && isPageSelected">
         <v-layout row>
           <v-flex column xs12 lg12>
-            <v-card row>
               <quill-editor xs12 v-model="currentPageMarkdown">
               </quill-editor>
-            </v-card>
             <v-card>
               <v-btn @click="savePageToBook()">
-                <v-icon>save</v-icon>
+                <v-icon>cloud_upload</v-icon>
                 Save
               </v-btn>
             </v-card>
@@ -152,6 +116,7 @@ export default {
     selectBook (book) { // Triggers selection of a book on the UI by setting internal vars
       this.currentUserPath.push(book.title)
       this.selectedBookKey = book['.key']
+      this.selectedPageName = ''
     },
     selectPage (page) {
       this.currentUserPath.push(page.title)
@@ -200,8 +165,9 @@ export default {
       selectedPageName: '', // Current clicked page name
       currentPageMarkdown: '', // Current markdown text being edited
       currentUserPath: [], // Tracks users selections on the screen mainly to show breadcrumbs
-      drawer: true,
-      mini: false
+      drawer: false,
+      mini: true,
+      toggle_exclusive: ''
     }
   }
 }
@@ -209,8 +175,8 @@ export default {
 
 <style>
 .footer-adding-book {
-  height: 140px;
-  padding-top: 50px;
+  height: 240px;
+  padding-top: 70px;
 }
 
 .footer-normal {
