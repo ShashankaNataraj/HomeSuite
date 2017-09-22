@@ -6,6 +6,9 @@ import Vuetify from 'vuetify'
 import App from './App'
 import RouterObj from './router'
 import Firebase from 'firebase'
+import VueQuillEditor from 'vue-quill-editor'
+Vue.use(VueQuillEditor)
+
 let provider = new Firebase.auth.GoogleAuthProvider()
 Vue.use(Vuetify)
 Firebase.auth().onAuthStateChanged((user) => {

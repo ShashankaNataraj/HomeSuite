@@ -1,120 +1,112 @@
 <template>
-<v-container grid-list-md text-xs-center>
-  <v-layout row wrap>
-    <v-flex row xs12 wrap>
-      <v-breadcrumbs row xs12 icons divider="forward">
-        <v-breadcrumbs-item
-          v-for="path in currentUserPath" :key="path"
-        >
-          {{ path }}
-        </v-breadcrumbs-item>
-      </v-breadcrumbs>
-    </v-flex>
-    <v-flex xs12 sm12 column v-if="!isBookSelected">
-      <v-card row class="purple white--text">
-        <v-list>
-          <v-subheader>
-            <v-icon>
-              book
-            </v-icon>
-            Books
-          </v-subheader>
-          <v-divider></v-divider>
-          <v-list-tile avatar v-for="note in booksList" v-bind:key="note.title" v-bind:class="selectedBookKey === note['.key']?'deep-purple lighten-4':''" @click="selectBook(note)">
-            <v-list-tile-content>
-              <v-list-tile v-text="note.title"></v-list-tile>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-footer v-bind:class="[isAddingBook?'footer-adding-book':'footer-normal']">
-            <v-flex xs12>
-              <v-spacer v-if="!isAddingBook"></v-spacer>
-              <v-btn flat outline block secondary @click="addNewBook()" v-if="!isAddingBook">
-                <v-icon>
-                  add
-                </v-icon>Add New Book
-              </v-btn>
-              <div v-if="isAddingBook" row wrap>
-                <v-text-field label="New Book Name" column width="50px" v-model="newBookName"></v-text-field>
-                <v-btn @click="saveBookName()">
-                  <v-icon>
-                    check
-                  </v-icon>
-                  Save
-                </v-btn>
-              </div>
-            </v-flex>
-          </v-footer>
-        </v-list>
-      </v-card>
-    </v-flex>
-    <v-flex xs12 sm12 column v-if="isBookSelected && !isPageSelected">
-      <v-card row class="purple white--text">
-        <v-list>
-          <v-subheader>
-            <v-icon>
-              page
-            </v-icon>
-            Pages
-          </v-subheader>
-          <v-divider></v-divider>
-          <v-list-tile avatar v-for="note in notesInCurrentBook" v-bind:key="note.title" v-bind:class="selectedBookKey === note['.key']?'deep-purple lighten-4':''" @click="selectPage(note)">
-            <v-list-tile-content>
-              <v-list-tile v-text="note.title"></v-list-tile>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-footer v-bind:class="[isAddingPage?'footer-adding-book':'footer-normal']">
-            <v-flex xs12>
-              <v-spacer v-if="!isAddingPage"></v-spacer>
-              <v-btn flat outline block secondary @click="addNewPage()" v-if="!isAddingPage">
-                <v-icon>
-                  add
-                </v-icon>Add New Page
-              </v-btn>
-              <div v-if="isAddingPage" row wrap>
-                <v-text-field label="New Page Name" column width="50px" v-model="newPageName"></v-text-field>
-                <v-btn @click="savePageNameToBook()">
-                  <v-icon>
-                    check
-                  </v-icon>
-                  Save
-                </v-btn>
-              </div>
-            </v-flex>
-          </v-footer>
-        </v-list>
-      </v-card>
-    </v-flex>
-    <v-flex xs12 sm12 column v-if="isBookSelected && isPageSelected">
-      <v-layout row>
-        <v-flex column xs12 lg6>
-          <v-card row>
-            <v-text-field
-              label="Markdown"
-              multi-line
-              v-model="currentPageMarkdown"
-              auto-grow
-            ></v-text-field>
-          </v-card>
-          <v-card>
-            <v-btn @click="savePageToBook()">
-              <v-icon>save</v-icon>Save
+  <v-container grid-list-md>
+    <v-navigation-drawer permanent clipped light :mini-variant.sync="mini" v-model="drawer">
+      <v-list dense class="pt-0">
+        <v-list-tile avatar>
+          <v-list-tile-action>
+            <img src="https://www.iconexperience.com/_img/g_collection_png/standard/512x512/books.png" height=45/>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Books</v-list-tile-title>
+          </v-list-tile-content>
+          <v-list-tile-action>
+            <v-btn icon @click.native.stop="mini = !mini">
+              <v-icon>chevron_left</v-icon>
             </v-btn>
-          </v-card>
-        </v-flex>
-        <v-flex column xs12 lg6>
-          <v-card row>
-            <div column v-html="compiledMarkdown"></div>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-  </v-layout>
+          </v-list-tile-action>
+        </v-list-tile>
+        <v-list-tile avatar v-for="note in booksList" v-bind:key="note.title"
+                     v-bind:class="selectedBookKey === note['.key']?'deep-purple lighten-4':''"
+                     @click="selectBook(note)">
+          <v-list-tile-content>
+            <v-list-tile v-text="note.title"></v-list-tile>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-footer v-bind:class="[isAddingBook?'footer-adding-book':'footer-normal']">
+          <v-flex xs12>
+            <v-spacer v-if="!isAddingBook"></v-spacer>
+            <v-btn flat outline block secondary @click="addNewBook()" v-if="!isAddingBook">
+              <v-icon>
+                add
+              </v-icon>
+              Add New Book
+            </v-btn>
+            <div v-if="isAddingBook" row wrap>
+              <v-text-field label="New Book Name" column width="50px" v-model="newBookName"></v-text-field>
+              <v-btn @click="saveBookName()">
+                <v-icon>
+                  check
+                </v-icon>
+                Save
+              </v-btn>
+            </div>
+          </v-flex>
+        </v-footer>
+      </v-list>
+    </v-navigation-drawer>
+    <v-layout row wrap>
+      <v-flex xs2 sm2 column>
+        <v-card row class="purple white--text">
+          <v-list>
+            <v-subheader>
+              <v-icon>
+                page
+              </v-icon>
+              Pages
+            </v-subheader>
+            <v-divider></v-divider>
+            <v-list-tile avatar v-for="note in notesInCurrentBook" v-bind:key="note.title"
+                         v-bind:class="selectedBookKey === note['.key']?'deep-purple lighten-4':''"
+                         @click="selectPage(note)">
+              <v-list-tile-content>
+                <v-list-tile v-text="note.title"></v-list-tile>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-footer v-bind:class="[isAddingPage?'footer-adding-book':'footer-normal']">
+              <v-flex xs12>
+                <v-spacer v-if="!isAddingPage"></v-spacer>
+                <v-btn flat outline block secondary @click="addNewPage()" v-if="!isAddingPage">
+                  <v-icon>
+                    add
+                  </v-icon>
+                  Add New Page
+                </v-btn>
+                <div v-if="isAddingPage" row wrap>
+                  <v-text-field label="New Page Name" column width="50px" v-model="newPageName"></v-text-field>
+                  <v-btn @click="savePageNameToBook()">
+                    <v-icon>
+                      check
+                    </v-icon>
+                    Save
+                  </v-btn>
+                </div>
+              </v-flex>
+            </v-footer>
+          </v-list>
+        </v-card>
+      </v-flex>
+      <v-flex xs8 sm8 column v-if="isBookSelected && isPageSelected">
+        <v-layout row>
+          <v-flex column xs12 lg12>
+            <v-card row>
+              <quill-editor xs12 v-model="currentPageMarkdown">
+              </quill-editor>
+            </v-card>
+            <v-card>
+              <v-btn @click="savePageToBook()">
+                <v-icon>save</v-icon>
+                Save
+              </v-btn>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
 <script>
 import Note from './Note'
-import marked from 'marked'
 export default {
   methods: {
     addNewBook () {
@@ -132,7 +124,7 @@ export default {
     },
     savePageNameToBook () {
       this.isAddingPage = false
-      let currentBook = {...this.getCurrentSelectedBook()}
+      let currentBook = { ...this.getCurrentSelectedBook() }
       let currentPages = currentBook['pages'] || []
       let newPageObj = {
         title: this.newPageName,
@@ -145,7 +137,7 @@ export default {
     },
     savePageToBook () {
       this.isAddingPage = false
-      let currentBook = {...this.getCurrentSelectedBook()}
+      let currentBook = { ...this.getCurrentSelectedBook() }
       let currentPage = currentBook['pages']
         .find(page => page.title === this.selectedPageName.title, this)
       currentPage.md = this.currentPageMarkdown
@@ -168,7 +160,7 @@ export default {
     },
     getCurrentSelectedBook () {
       return this.booksList
-              .find(book => book['.key'] === this.selectedBookKey, this)
+        .find(book => book['.key'] === this.selectedBookKey, this)
     }
   },
   components: {
@@ -181,9 +173,6 @@ export default {
     }
   },
   computed: {
-    compiledMarkdown: function () {
-      return marked(this.currentPageMarkdown, { sanitize: true })
-    },
     notesInCurrentBook () {
       let pages
       if (this.booksList.length > 0) {
@@ -209,8 +198,10 @@ export default {
       newPageName: '', // New page name being entered by the user
       selectedBookKey: '', // Current clicked books key
       selectedPageName: '', // Current clicked page name
-      currentPageMarkdown: '# hello', // Current markdown text being edited
-      currentUserPath: [] // Tracks users selections on the screen mainly to show breadcrumbs
+      currentPageMarkdown: '', // Current markdown text being edited
+      currentUserPath: [], // Tracks users selections on the screen mainly to show breadcrumbs
+      drawer: true,
+      mini: false
     }
   }
 }
@@ -219,9 +210,14 @@ export default {
 <style>
 .footer-adding-book {
   height: 140px;
-  padding-top:50px;
+  padding-top: 50px;
 }
+
 .footer-normal {
-  height:50px;
+  height: 50px;
+}
+
+.ql-font-roboto {
+  font-family: 'Roboto', sans-serif;
 }
 </style>
