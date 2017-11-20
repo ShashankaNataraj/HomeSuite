@@ -1,30 +1,18 @@
-# homesuite
+#Home Suite
 
-> A Vue.js project
+A home suite consisting of a 
+1. Todo list
+2. Expense manager
+3. Habit tracker
 
-## Build Setup
+# Tech
+Made with VueJS, Webpack, git and Firebase!
 
-``` bash
-# install dependencies
-npm install
+# How to use
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+1. Install npm
+2. Sign up for a firebase account
+3. Install the firebase CLI
+4. `firebase init` within the cloned project folder and login
+5. Run `npm run build-deploy` to build & deploy the project to firebase hosting
+6. Run `npm run dev` to start the project locally with HMR
