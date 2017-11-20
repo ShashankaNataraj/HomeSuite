@@ -6,7 +6,7 @@ A home suite consisting of a
 3. Habit tracker
 
 # Tech
-Made with VueJS, Webpack, git and Firebase!
+Made with VueJS, Webpack, Git and Firebase!
 
 # How to use
 
