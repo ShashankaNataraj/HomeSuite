@@ -23,7 +23,9 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar :hidden="toolbarHidden">
-      <v-toolbar-title>Home Suite</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/" class="home-link">Home Suite</router-link>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-side-icon class="text-xl-right" @click.stop="drawer = !drawer" light></v-toolbar-side-icon>
     </v-toolbar>
@@ -57,4 +59,7 @@
 
 <style lang="stylus">
   @import './stylus/main'
+  .home-link{
+    text-decoration: none;
+  }
 </style>

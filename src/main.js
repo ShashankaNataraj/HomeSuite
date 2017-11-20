@@ -12,7 +12,7 @@ Vue.use(VueQuillEditor)
 let provider = new Firebase.auth.GoogleAuthProvider()
 Vue.use(Vuetify)
 Firebase.auth().onAuthStateChanged((user) => {
-  function renderApp () {
+  function renderApp (user) {
     /* eslint-disable no-new */
     new Vue({
       el: '#app',
