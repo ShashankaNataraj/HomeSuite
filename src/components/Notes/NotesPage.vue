@@ -59,7 +59,7 @@
             <v-card>
               <v-btn @click="savePageToBook()">
                 <v-icon>cloud_upload</v-icon>
-                Save
+                &nbsp;Save
               </v-btn>
             </v-card>
           </v-flex>
@@ -92,7 +92,7 @@ export default {
       let currentPages = currentBook['pages'] || []
       let newPageObj = {
         title: this.newPageName,
-        md: '# Hello there!'
+        md: ''
       }
       currentPages.push(newPageObj)
       currentBook['pages'] = currentPages
